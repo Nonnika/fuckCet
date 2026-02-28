@@ -1,19 +1,112 @@
-# README
+# fuckCet
 
-## About
+🎓 一个使用 **Go + Wails** 开发的桌面应用，目标是帮助用户记忆英语单词（以 CET 为例）。  
+前端使用 **Vue 3 + Vite**，后端使用 Go 并通过 Wails 框架桥接。
 
-This is the official Wails Vue template.
+---
 
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: https://wails.io/docs/reference/project-config
+## 🚀 特性(目前没有实现)
 
-## Live Development
+- 单词数据库管理与查询
+- 单词释义展示
+- 前端简洁的卡片式界面
+- 一键构建跨平台可执行文件
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+---
 
-## Building
+## 📁 项目结构
 
-To build a redistributable, production mode package, use `wails build`.
+```
+.
+├── app.go            # Wails 应用入口
+├── main.go           # 程序启动逻辑
+├── backend/          # Go 后端代码
+│   ├── source/
+│   │   └── utils/…
+│   └── words/…
+├── build/            # 构建产物
+├── frontend/         # 前端 Vue/Vite 代码
+│   └── src/components/WordCard.vue
+├── test/             # 单元测试
+└── wails.json        # Wails 配置
+```
+
+---
+
+## 🛠️ 环境依赖
+
+- Go ≥1.20
+- Node.js ≥16
+- npm 或 yarn
+- [Wails CLI](https://wails.io/)
+- （可选）NSIS 用于 Windows 安装包
+
+---
+
+## ⬇️ 快速开始
+
+1. 克隆仓库：
+
+   ```bash
+   git cloen https://github.com/Nonnika/fuckCet.git
+   cd fuckCet
+   ```
+
+2. 初始化后端（Go）依赖：
+
+   ```bash
+   go mod tidy
+   ```
+
+3. 安装前端依赖：
+
+   ```bash
+   cd frontend
+   npm install        # 或 yarn
+   cd ..
+   ```
+
+4. 运行开发模式：
+
+   ```bash
+   # 在仓库根目录
+   wails dev          # 同时启动 Go 后端和 Vite 前端
+   ```
+
+---
+
+## 🏗️ 构建发行版
+
+- **Windows**
+
+  ```bash
+  wails build -p windows/amd64
+  ```
+
+- **macOS**
+
+  ```bash
+  wails build -p darwin/amd64
+  ```
+
+- **Linux**
+
+  ```bash
+  wails build -p linux/amd64
+  ```
+
+构建完成后，`build/bin/fuckCet` 或相应平台目录下会生成可执行文件或安装包。
+
+---
+
+## ✅ 测试
+
+运行 Go 单元测试：
+
+```bash
+go test ./...
+```
+
+---
+
+
