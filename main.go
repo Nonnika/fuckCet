@@ -2,9 +2,12 @@ package main
 
 import (
 	"embed"
+	aianalyse "fuckCet/backend/utils/aiAnalyse"
 	"fuckCet/backend/words"
 	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
@@ -15,10 +18,15 @@ var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
+	err := godotenv.Load()
+	if err != nil {
+		log.Printf("Error loading .env file: %v", err)
+	}
 	app := NewApp()
 	wordsList := words.NewWordList()
 	db := words.NewDatabase()
-	err := db.Init("./backend/source/vocabulary.db")
+	agent := aianalyse.NewAgent(os.Getenv("MODEL_NAME"), os.Getenv("MODEL_API_KEY"), os.Getenv("BASE_URL"))
+	err = db.Init("./backend/source/vocabulary.db")
 	if err != nil {
 		panic(err)
 	}
@@ -49,6 +57,7 @@ func main() {
 		Bind: []interface{}{
 			app,
 			wordsList,
+			agent,
 		},
 	})
 

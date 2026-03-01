@@ -1,6 +1,7 @@
 <script setup>
-
+// 单词卡片组件，展示单词和释义
 const props = defineProps(["word","discription"])
+
 
 </script>
 
@@ -13,7 +14,7 @@ const props = defineProps(["word","discription"])
 
 <style>
     .rectangle{
-        width: 150px;
+        width: 200px;
         background-color: #7393a7;
         color:#d0e7ef;
         display: flex;
@@ -23,6 +24,8 @@ const props = defineProps(["word","discription"])
         border-radius: 5px;
         padding: 5px;
         margin: 10px;
+
+        transition-duration: 0.4s;
     }
     .rectangle b{
         margin-bottom: 1px;
@@ -30,5 +33,8 @@ const props = defineProps(["word","discription"])
     .rectangle p{
         margin: 0;
         font-size: 14px;
+    }
+    .rectangle:hover{
+        transform: scale(1.1);
     }
 </style>
