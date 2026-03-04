@@ -3,10 +3,14 @@
 const props = defineProps(["word","discription"])
 
 
+const onCardClick = () => {
+    window.location.hash = `#/analyse?word=${encodeURIComponent(props.word)}`;
+}
+
 </script>
 
 <template>
-    <div class="rectangle">
+    <div v-on:click="onCardClick" class="rectangle">
         <b>{{ props.word }}</b> 
         <p v-for="d in props.discription" :key="d">{{ d }}</p>
     </div>

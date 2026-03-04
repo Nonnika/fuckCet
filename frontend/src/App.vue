@@ -1,48 +1,33 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { GetWordsArray } from '../wailsjs/go/words/WordList';
-import WordCard from './components/WordCard.vue';
-import AnalyseCard from './components/AnalyseCard.vue';
+import { ref, onMounted, computed } from 'vue';
+import  Home  from './Home.vue'
+import  WordList  from './WordList.vue'
+import Analyse from './Analyse.vue'
 
-// 定义一个响应式变量来存储单词列表
-// 初学Vue
+const routes = {
+  '/': Home,
+  '/words': WordList,
+  '/analyse': Analyse
+}
 
-const words = ref([]);
-const testExpain = ref("这是一个测试释义，展示单词的意思和用法。");
+const currentPath = ref(window.location.hash);
 
-onMounted(async () => {
-  try {
-    words.value = await GetWordsArray();
-  } catch (error) {
-    console.error('Failed to load words', error);
-  }
+const getRoutePath = (hash) => {
+  const route = (hash || '#/').slice(1);
+  return route.split('?')[0] || '/';
+};
+
+window.addEventListener('hashchange', () => {
+  currentPath.value = window.location.hash;
+  console.log('Hash changed to:', currentPath.value);
 });
+
+const currentView = computed(() => {
+  return routes[getRoutePath(currentPath.value)] || Home;
+})
+
 </script>
 
 <template>
-  <div>
-    <h1>Word Remember</h1>
-    <div id="card_container">
-      <WordCard 
-        v-for="word in words" 
-        :key="word.Id" 
-        :word="word.Word" 
-        :discription="word.Discription"/>
-    </div>
-    <!-- 简单测试一下 -->
-    <AnalyseCard :word="words[0]?.Word || ''"/>
-  </div>
+  <component :is="currentView" :key="currentPath"></component>
 </template>
-
-<style>
-h1{
-  text-align: center;
-} 
-
-#card_container{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-</style>
